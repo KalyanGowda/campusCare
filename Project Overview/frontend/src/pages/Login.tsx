@@ -82,12 +82,14 @@ export function Login() {
       {/* Left Column */}
       <div className="w-[55%] flex flex-col justify-center px-16 lg:px-32 relative">
         <div className="absolute top-12 left-12 flex items-center gap-3">
-          <div className="w-8 h-8 bg-navy text-white font-bold flex items-center justify-center rounded-sm">
-            C
-          </div>
-          <span className="font-semibold text-navy text-sm tracking-wide">
-            Campus Alert &amp; Resolution Engine
-          </span>
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <div className="w-8 h-8 bg-navy text-white font-bold flex items-center justify-center rounded-sm">
+              C
+            </div>
+            <span className="font-semibold text-navy text-sm tracking-wide">
+              Campus Alert &amp; Resolution Engine
+            </span>
+          </Link>
         </div>
 
         <div className="max-w-md w-full mx-auto">

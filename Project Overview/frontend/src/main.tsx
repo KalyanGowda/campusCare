@@ -1,6 +1,6 @@
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
-import { RouterProvider, createBrowserRouter } from "react-router"
+import { RouterProvider, createBrowserRouter, Navigate } from "react-router"
 import "./index.css"
 import { Landing } from "./pages/Landing"
 import { Login } from "./pages/Login"
@@ -14,6 +14,7 @@ import { StaffLayout } from "./layouts/StaffLayout"
 import { StaffDashboard } from "./pages/StaffDashboard"
 import { StaffQueue } from "./pages/StaffQueue"
 import { StaffReportDetail } from "./pages/StaffReportDetail"
+import { StaffReports } from "./pages/StaffReports"
 import { StaffSettings } from "./pages/StaffSettings"
 import { AdminLayout } from "./layouts/AdminLayout"
 import { AdminDashboard } from "./pages/AdminDashboard"
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <StaffDashboard /> },
       { path: "queue", element: <StaffQueue /> },
+      { path: "reports", element: <StaffReports /> },
       { path: "report/:id", element: <StaffReportDetail /> },
       { path: "settings", element: <StaffSettings /> }
     ],
