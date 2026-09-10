@@ -1,0 +1,515 @@
+Add three missing screens to the Staff Dashboard. All three use the 
+exact same shell as the existing Staff Dashboard — same dark navy 
+sidebar (Dashboard, My Queue, Report Detail, Settings, Log out), 
+same topbar with bell icon + "Ravi Kumar" + "Block B Incharge" + 
+"RK" avatar, same #F0F2F7 page background. Only the main content 
+area changes per screen.
+
+════════════════════════════════════════════
+SCREEN 1 — MY QUEUE
+════════════════════════════════════════════
+
+Sidebar active state: "My Queue" highlighted
+(left amber border, navy-deep background, white text).
+Page title (topbar left): "My Queue"
+
+── MAIN CONTENT ──────────────────────────
+
+HEADER ROW (flex, space-between, margin-bottom 20px):
+  Left: 
+    Heading "Block B — Reports" 
+    Inter SemiBold 18px, #1C2333
+    Below it: "12 total reports · 5 need attention"
+    Inter Regular 13px, #6B7280
+  Right:
+    A search input — 240px wide, 38px height
+    Placeholder: "Search by location or category"
+    1px #E2E6EF border, 6px radius, 
+    search icon inside left of input
+
+FILTER TAB ROW (below header, margin-bottom 16px):
+  Five tab buttons left-aligned with 8px gap:
+    All (12) | Open (5) | Acknowledged (3) | 
+    In Progress (4) | Resolved (18)
+  
+  Active tab (default: All):
+    Background: #1A2B4A
+    Color: #FFFFFF
+    Font: Inter Medium 13px
+    Border-radius: 6px
+    Padding: 6px 14px
+  
+  Inactive tab:
+    Background: #FFFFFF
+    Color: #6B7280
+    Border: 1px solid #E2E6EF
+    Font: Inter Medium 13px
+    Border-radius: 6px
+    Padding: 6px 14px
+
+  Right side of filter row (right-aligned):
+    Sort dropdown — "Sort by: Newest"
+    38px height, 160px wide, 1px #E2E6EF border, 
+    6px radius, chevron icon right side
+
+QUEUE TABLE (white card, 10px radius, 
+1px #E2E6EF border, no internal padding on the card — 
+table fills edge to edge inside the card):
+
+  Column headers (48px height, #F9FAFB background, 
+  top border-radius 10px to match card):
+    LOCATION | CATEGORY | DESCRIPTION | 
+    CONFIRMED BY | STATUS | DATE | SLA | ACTION
+    
+    All headers: Inter Medium 12px, #6B7280, 
+    uppercase, letter-spacing 0.04em
+    Left padding on first column: 20px
+    Right padding on last column: 20px
+
+  TABLE ROWS — 8 rows, 64px height each.
+  Alternating: white / #F9FAFB
+  1px #E2E6EF bottom border on each row.
+  Hover state: #EFF6FF tint (light blue wash)
+
+  Row data (left padding 20px, right padding 20px):
+
+  ROW 1:
+    Location:     Block B, Room 204
+    Category:     Fan not working
+    Description:  "Ceiling fan in back row has not..."
+                  (truncated with ellipsis at ~30 chars)
+                  Inter Regular 13px, #6B7280
+    Confirmed by: "4 students" — amber text #E8A020, 
+                  Inter Medium 13px
+    Status:       [In Progress badge]
+    Date:         3 Sep 2025
+    SLA:          🟡 1 day left
+                  Inter Medium 12px, #D97706
+    Action:       "View" — Inter SemiBold 13px, 
+                  #1A2B4A, no border, clickable
+
+  ROW 2:
+    Location:     Block B, Washroom F2
+    Category:     Tap broken
+    Description:  "Cold tap dripping constantly..."
+    Confirmed by: "7 students" — amber
+    Status:       [Acknowledged badge]
+    Date:         1 Sep 2025
+    SLA:          🔴 Overdue
+                  Inter Medium 12px, #DC2626
+                  Row background: very light red tint 
+                  #FFF5F5 (overdue rows get this tint 
+                  instead of alternating white/#F9FAFB)
+    Action:       "View"
+
+  ROW 3:
+    Location:     Block B, Lab 301
+    Category:     Projector issue
+    Description:  "Projector shows no signal on..."
+    Confirmed by: "1 student" — #6B7280 (no amber 
+                  for single confirmations)
+    Status:       [Open badge]
+    Date:         5 Sep 2025
+    SLA:          🟢 3 days left
+                  Inter Medium 12px, #16A34A
+    Action:       "View"
+
+  ROW 4:
+    Location:     Block B, Room 112
+    Category:     Light not working
+    Description:  "Tube light at front of room..."
+    Confirmed by: "2 students" — amber
+    Status:       [Open badge]
+    Date:         4 Sep 2025
+    SLA:          🟢 2 days left
+    Action:       "View"
+
+  ROW 5:
+    Location:     Block B, Room 108
+    Category:     AC not cooling
+    Description:  "AC running but no cold air..."
+    Confirmed by: "5 students" — amber
+    Status:       [In Progress badge]
+    Date:         2 Sep 2025
+    SLA:          🟡 12 hours left
+    Action:       "View"
+
+  ROW 6:
+    Location:     Block B, Corridor F1
+    Category:     Broken railing
+    Description:  "Stairwell railing on floor 1..."
+    Confirmed by: "3 students" — amber
+    Status:       [Acknowledged badge]
+    Date:         31 Aug 2025
+    SLA:          🔴 Overdue
+    Row tint:     #FFF5F5
+    Action:       "View"
+
+  ROW 7:
+    Location:     Block B, Room 204
+    Category:     Switch not working
+    Description:  "Power switch near door is..."
+    Confirmed by: "1 student" — #6B7280
+    Status:       [Resolved badge]
+    Date:         28 Aug 2025
+    SLA:          ✓ Met
+                  Inter Medium 12px, #16A34A
+    Action:       "View"
+
+  ROW 8:
+    Location:     Block B, Lab 302
+    Category:     Bench damaged
+    Description:  "Two benches near window are..."
+    Confirmed by: "2 students" — amber
+    Status:       [Resolved badge]
+    Date:         25 Aug 2025
+    SLA:          ✓ Met
+    Action:       "View"
+
+  TABLE FOOTER (inside card, 48px height, 
+  #F9FAFB background, bottom border-radius 10px):
+    Left: "Showing 8 of 12 reports"
+          Inter Regular 13px, #6B7280
+    Right: Pagination — Previous | 1 | 2 | Next
+           Active page (1): #1A2B4A background, 
+           white text, 6px radius
+
+RIGHT PANEL (same position as student dashboard 
+right panel, ~300px wide):
+
+  BLOCK PERFORMANCE CARD
+  White card, 10px radius, 1px #E2E6EF border, 
+  20px padding.
+  
+  Heading: "Block B Performance"
+  Inter SemiBold 15px, #1C2333
+  Sub: "September 2025"
+  Inter Regular 12px, #6B7280
+  16px gap below.
+
+  Rating number: "84" 
+  Inter Bold 48px, #1A2B4A, centered
+  Below: "/ 100" Inter Regular 16px, #6B7280
+  Below that: "Current Rating" Inter Regular 12px, 
+  #6B7280, centered
+  24px gap.
+
+  Two metric rows (label left, value+bar right):
+  
+  Resolution Rate:
+    Label: Inter Medium 13px, #6B7280
+    Value: "88%" Inter SemiBold 13px, #1C2333
+    Progress bar below (full width): 
+      6px height, 6px radius
+      Fill: #16A34A at 88% width
+      Track: #E2E6EF
+  
+  16px gap.
+  
+  Timeliness Score:
+    Label: Inter Medium 13px, #6B7280  
+    Value: "79%" Inter SemiBold 13px, #1C2333
+    Progress bar: #E8A020 fill at 79% width
+
+  Thin #E2E6EF divider, 16px gap.
+
+  SLA ALERT (only if overdue tickets exist):
+    Background: #FFF5F5
+    Border: 1px solid #FCA5A5
+    Border-radius: 6px
+    Padding: 12px
+    Text: "⚠ 2 reports are overdue"
+    Inter SemiBold 13px, #DC2626
+    Below: "Act on these first to protect your rating."
+    Inter Regular 12px, #6B7280
+
+════════════════════════════════════════════
+SCREEN 2 — REPORT DETAIL
+════════════════════════════════════════════
+
+Sidebar active state: "Report Detail" highlighted.
+Page title: "Report Detail"
+
+Back link below page title:
+  "← Back to My Queue"
+  Inter Medium 13px, #1A2B4A
+  No underline, just an arrow prefix
+
+── MAIN CONTENT — TWO COLUMN LAYOUT ──────
+
+Left column: flex-grow (fills remaining after right col)
+Right column: 340px fixed width
+Gap between columns: 24px
+
+── LEFT COLUMN ────────────────────────────
+
+CARD 1 — REPORT INFO
+White card, 10px radius, 1px #E2E6EF border, 24px padding.
+
+Top row (flex, space-between):
+  Left: Report ID "#RPT-2025-0031"
+        Inter SemiBold 13px, #6B7280
+  Right: [In Progress badge] — same badge style 
+         as existing dashboard
+
+16px gap.
+
+Detail rows (two columns inside this card, 
+label + value pairs, 16px gap between rows):
+
+  Block:         Block B
+  Location:      Room 204
+  Space Type:    Classroom
+  Category:      Issue — Fan not working
+  Submitted by:  Student #S-4821
+                 Inter Regular 14px, #6B7280
+                 (no name — privacy)
+  Date Reported: 3 Sep 2025, 9:12 AM
+  Last Updated:  4 Sep 2025, 10:00 AM
+
+All labels: Inter Medium 13px, #6B7280
+All values: Inter Regular 14px, #1C2333
+
+Thin #E2E6EF divider, 16px gap.
+
+Full description:
+  Label: "Description" Inter SemiBold 13px, #6B7280
+  Below: "The ceiling fan in the back two rows of 
+  Room 204 has not been working for the past 3 days. 
+  Students sitting in those rows are unable to 
+  concentrate due to heat."
+  Inter Regular 14px, #1C2333, line-height 1.6
+
+Thin divider, 16px gap.
+
+Confirmation count:
+  Label: "Student Confirmations"
+  Inter SemiBold 13px, #6B7280
+  Value: "4 students have confirmed this issue"
+  Inter Regular 14px, #E8A020 (amber for confirmations)
+  Below: A row of 4 small circles (20px, #DBEAFE 
+  background, initials in #1A2B4A, overlapping 
+  slightly like avatars) + "and 1 more"
+
+CARD 2 — STATUS HISTORY TIMELINE
+White card, 10px radius, 1px #E2E6EF border, 
+24px padding. Below Card 1, 16px gap.
+
+Card heading: "Status History"
+Inter SemiBold 15px, #1C2333
+Thin divider, 16px gap.
+
+Vertical timeline. Each node:
+  Left: a vertical line in #E2E6EF connecting nodes.
+  Node dot: 10px circle.
+    Completed steps: #1A2B4A fill
+    Current step: #E8A020 fill (amber, pulsing ring 
+    optional)
+    Future steps: #E2E6EF fill (empty/greyed)
+  
+  Right of dot: 
+    Status label: Inter SemiBold 14px
+    Completed: #1C2333
+    Future: #9CA3AF
+    
+    Below label: timestamp or "Pending"
+    Inter Regular 12px, #6B7280
+
+Four nodes:
+  1. Open          — 3 Sep 2025, 9:12 AM — #1A2B4A dot
+  2. Acknowledged  — 3 Sep 2025, 2:30 PM — #1A2B4A dot
+  3. In Progress   — 4 Sep 2025, 10:00 AM — #E8A020 dot
+  4. Resolved      — Pending — #E2E6EF dot (greyed)
+
+Past student history (below timeline):
+  Thin divider, then:
+  "Submitted by Student #S-4821 · 3 reports total, 
+  0 previously rejected"
+  Inter Regular 12px, #6B7280
+
+── RIGHT COLUMN ───────────────────────────
+
+CARD A — UPDATE STATUS (primary action card)
+White card, 10px radius, 1px #E2E6EF border, 
+20px padding.
+
+Heading: "Update Status"
+Inter SemiBold 15px, #1C2333
+Thin divider, 16px gap.
+
+Current status display:
+  Label: "Current status"
+  Inter Medium 12px, #6B7280
+  Below: [In Progress badge] — large version, 
+  same colors but padding 8px 16px
+
+20px gap.
+
+"Move to" label: Inter Medium 12px, #6B7280
+Below: a select dropdown — full width, 40px height,
+1px #E2E6EF border, 6px radius.
+Options inside: Acknowledged / In Progress / Resolved
+Default shown: "Select new status" placeholder 
+in #9CA3AF
+
+16px gap.
+
+"Update Status" button:
+  Background: #1A2B4A
+  Color: #FFFFFF
+  Font: Inter SemiBold 14px
+  Border-radius: 6px
+  Padding: 11px
+  Width: 100%
+
+CARD B — REJECT REPORT
+White card, 10px radius, 
+border: 1px solid #FCA5A5 (light red border — 
+signals this is a destructive action zone),
+20px padding. Below Card A, 16px gap.
+
+Heading: "Mark as Invalid"
+Inter SemiBold 14px, #DC2626
+
+Thin #FCA5A5 divider, 12px gap.
+
+Short note: "Use this only if the issue does not 
+exist or cannot be verified on inspection. 
+Your reason is logged and visible to admin."
+Inter Regular 12px, #6B7280, line-height 1.5
+
+12px gap.
+
+Label: "Reason for rejection"
+Inter Medium 13px, #6B7280
+Below: Textarea — full width, 96px height, 
+1px #E2E6EF border, 6px radius, 12px padding.
+Placeholder: "e.g. Visited Room 204 — fan is 
+working normally, issue not reproducible."
+Font: Inter Regular 13px
+
+12px gap.
+
+"Reject Report" button:
+  Background: transparent
+  Border: 1px solid #DC2626
+  Color: #DC2626
+  Font: Inter SemiBold 13px
+  Border-radius: 6px
+  Padding: 10px
+  Width: 100%
+
+════════════════════════════════════════════
+SCREEN 3 — SETTINGS (STAFF)
+════════════════════════════════════════════
+
+Sidebar active state: "Settings" highlighted.
+Page title: "Settings"
+
+── MAIN CONTENT — TWO COLUMN LAYOUT ──────
+(same two-column layout as student settings)
+Left column: 420px
+Right column: remaining width
+Gap: 24px
+
+── LEFT COLUMN — THREE CARDS ──────────────
+
+CARD 1 — PROFILE
+(Identical structure to student settings Card 1)
+
+Fields:
+  Full Name:    "Ravi Kumar"
+  College Email: "ravi.kumar@bmsit.in"
+               (disabled input, same muted style)
+               Note: "Your email cannot be changed."
+  Assigned Block: "Block B"
+               (disabled input — #F3F4F6 background)
+               Note: "Block assignment is managed by admin."
+  Employee ID:  "BMS-STAFF-042"
+
+"Save Changes" button — same style as student version.
+
+CARD 2 — NOTIFICATION PREFERENCES
+(Same structure as student version, different rows)
+
+Row 1 — ON:
+  Label:     "New report assigned"
+  Sub-label: "When a new report is submitted for your block"
+
+Row 2 — ON:
+  Label:     "SLA breach alerts"
+  Sub-label: "When a report in your queue goes overdue"
+
+Row 3 — ON:
+  Label:     "Student confirmations"
+  Sub-label: "When more students confirm an existing report"
+
+Row 4 — OFF:
+  Label:     "System announcements"
+  Sub-label: "General updates from BMSIT&M CARE"
+
+CARD 3 — CHANGE PASSWORD
+(Identical to student settings Card 3)
+Fields: Current Password, New Password, 
+Confirm New Password.
+"Update Password" button.
+
+── RIGHT COLUMN ───────────────────────────
+
+STAFF ACCOUNT CARD
+White card, 10px radius, 1px #E2E6EF border, 
+20px padding.
+
+Heading: "Account"
+Inter SemiBold 16px, #1C2333
+Thin divider.
+
+Avatar: 64px circle, #1A2B4A background, 
+"RK" white initials, Inter Bold 20px. Centered.
+Below: "Ravi Kumar" Inter SemiBold 15px, centered
+Below: "Block B Incharge" Inter Regular 13px, 
+#6B7280, centered
+
+Thin divider.
+
+Info rows (label left, value right, space-between):
+  Role:          Block Staff (Incharge)
+  Block:         Block B
+  Employee ID:   BMS-STAFF-042
+  Member since:  Jan 2025
+  Reports handled: 47
+
+Thin divider.
+
+BLOCK PERFORMANCE MINI CARD 
+(inside the account card, below the info rows):
+  Background: #F0F2F7
+  Border-radius: 8px
+  Padding: 14px
+  
+  Label: "Your block's current rating"
+  Inter Medium 12px, #6B7280
+  
+  Big number row (flex, align-center, 8px gap):
+    "84" — Inter Bold 32px, #1A2B4A
+    "/100" — Inter Regular 14px, #6B7280
+  
+  Below: thin progress bar
+    Height: 6px, border-radius: 3px
+    Fill: #E8A020 at 84% width
+    Track: #E2E6EF
+
+Note: Do NOT add a Danger Zone / Delete Account 
+section to the staff settings — staff accounts 
+are managed only by admin, not self-deletable.
+
+════════════════════════════════════════════
+DO NOT CHANGE
+════════════════════════════════════════════
+- Existing Staff Dashboard screen 
+  (the one with 4 stat cards)
+- Sidebar structure and all nav labels
+- Topbar layout and "Block B Incharge" sub-label
+- All color tokens, badge styles, card styles
+- Student dashboard screens
+- Landing page

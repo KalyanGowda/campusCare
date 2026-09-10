@@ -1,0 +1,10 @@
+{
+  "description": "Enables users to generate clear, concise descriptions of web applications for SEO and social media, enhancing online visibility and engagement.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
