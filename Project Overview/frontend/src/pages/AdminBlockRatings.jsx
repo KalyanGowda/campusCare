@@ -1,46 +1,31 @@
-import { useEffect, useState } from "react"
-import { apiFetch } from "../api"
-
-interface BlockRating {
-  block_id: number
-  block_name: string
-  staff_name: string
-  total_reports: number
-  resolved: number
-  rejected: number
-  overdue_count: number
-  resolution_rate: number
-  timeliness_score: number
-  final_rating: number
-}
-
+import { useEffect, useState } from "react";
+import { apiFetch } from "../api";
 export function AdminBlockRatings() {
-  const [blocks, setBlocks] = useState<BlockRating[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    apiFetch('/api/admin/block-ratings')
-      .then(r => r.json())
-      .then(data => { setBlocks(Array.isArray(data) ? data : []); setLoading(false) })
-      .catch(() => setLoading(false))
-  }, [])
-
-  const ratingColor = (r: number) => {
-    if (r >= 80) return "text-[#16A34A]"
-    if (r >= 70) return "text-[#D97706]"
-    return "text-[#DC2626]"
-  }
-  const ratingBg = (r: number) => {
-    if (r >= 80) return "bg-[#DCFCE7]"
-    if (r >= 70) return "bg-[#FEF3C7]"
-    return "bg-[#FEE2E2]"
-  }
-
-  const monthLabel = new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
-  const lowRating = blocks.filter(b => b.final_rating < 70)
-
-  return (
-    <div className="flex flex-col min-w-0 max-w-full">
+    const [blocks, setBlocks] = useState([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        apiFetch('/api/admin/block-ratings')
+            .then(r => r.json())
+            .then(data => { setBlocks(Array.isArray(data) ? data : []); setLoading(false); })
+            .catch(() => setLoading(false));
+    }, []);
+    const ratingColor = (r) => {
+        if (r >= 80)
+            return "text-[#16A34A]";
+        if (r >= 70)
+            return "text-[#D97706]";
+        return "text-[#DC2626]";
+    };
+    const ratingBg = (r) => {
+        if (r >= 80)
+            return "bg-[#DCFCE7]";
+        if (r >= 70)
+            return "bg-[#FEF3C7]";
+        return "bg-[#FEE2E2]";
+    };
+    const monthLabel = new Date().toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+    const lowRating = blocks.filter(b => b.final_rating < 70);
+    return (<div className="flex flex-col min-w-0 max-w-full">
       <div className="flex justify-between items-center mb-5">
         <div>
           <h2 className="text-[18px] font-semibold text-[#1C2333] font-inter">Block Performance</h2>
@@ -66,19 +51,11 @@ export function AdminBlockRatings() {
           <table className="w-full text-left whitespace-nowrap">
             <thead>
               <tr className="bg-[#F9FAFB] border-b border-[#E2E6EF]">
-                {['Rank','Block','Incharge','Resolution Rate','Timeliness Score','Rating','Reports','Overdue'].map(h => (
-                  <th key={h} className="h-[48px] px-3 text-[12px] font-medium text-[#6B7280] uppercase tracking-[0.04em]">{h}</th>
-                ))}
+                {['Rank', 'Block', 'Incharge', 'Resolution Rate', 'Timeliness Score', 'Rating', 'Reports', 'Overdue'].map(h => (<th key={h} className="h-[48px] px-3 text-[12px] font-medium text-[#6B7280] uppercase tracking-[0.04em]">{h}</th>))}
               </tr>
             </thead>
             <tbody>
-              {loading ? (
-                <tr><td colSpan={8} className="py-10 text-center text-sm text-[#6B7280]">Loading…</td></tr>
-              ) : blocks.length === 0 ? (
-                <tr><td colSpan={8} className="py-10 text-center text-sm text-[#6B7280]">No reports this month yet.</td></tr>
-              ) : (
-                blocks.map((row, i) => (
-                  <tr key={row.block_id} className="border-b border-[#E2E6EF] h-[72px]">
+              {loading ? (<tr><td colSpan={8} className="py-10 text-center text-sm text-[#6B7280]">Loading…</td></tr>) : blocks.length === 0 ? (<tr><td colSpan={8} className="py-10 text-center text-sm text-[#6B7280]">No reports this month yet.</td></tr>) : (blocks.map((row, i) => (<tr key={row.block_id} className="border-b border-[#E2E6EF] h-[72px]">
                     <td className="px-3 text-[16px] font-bold text-[#9CA3AF] font-inter">{i + 1}</td>
                     <td className="px-3 text-[14px] font-semibold text-[#1C2333] font-inter">{row.block_name}</td>
                     <td className="px-3">
@@ -103,26 +80,20 @@ export function AdminBlockRatings() {
                     <td className="px-3 text-[14px] text-[#1C2333] font-inter">{row.total_reports}</td>
                     <td className="px-3">
                       {row.overdue_count > 0
-                        ? <span className="text-[13px] font-semibold text-[#DC2626]">{row.overdue_count} overdue</span>
-                        : <span className="text-[13px] text-[#16A34A]">None</span>
-                      }
+                ? <span className="text-[13px] font-semibold text-[#DC2626]">{row.overdue_count} overdue</span>
+                : <span className="text-[13px] text-[#16A34A]">None</span>}
                     </td>
-                  </tr>
-                ))
-              )}
+                  </tr>)))}
             </tbody>
           </table>
         </div>
       </div>
 
-      {lowRating.length > 0 && (
-        <div className="bg-white border border-[#FCA5A5] rounded-[10px] py-4 px-5">
+      {lowRating.length > 0 && (<div className="bg-white border border-[#FCA5A5] rounded-[10px] py-4 px-5">
           <p className="text-[13px] text-[#DC2626] font-inter">
             {lowRating.map(b => b.block_name).join(', ')} {lowRating.length === 1 ? 'is' : 'are'} below the 70-point threshold.
             Consider a review with their incharges.
           </p>
-        </div>
-      )}
-    </div>
-  )
+        </div>)}
+    </div>);
 }

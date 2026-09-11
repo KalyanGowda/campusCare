@@ -1,39 +1,22 @@
-import { Link } from "react-router"
-import {
-  ArrowRight,
-  Building2,
-  GraduationCap,
-  LayoutDashboard,
-  ListTodo,
-} from "lucide-react"
-import bgImage from "@/imports/gg.png.jpg-1.jpeg"
-
+import { Link } from "react-router";
+import { ArrowRight, Building2, GraduationCap, LayoutDashboard, ListTodo, } from "lucide-react";
+import bgImage from "@/imports/gg.png.jpg-1.jpeg";
 export function Landing() {
-  return (
-    <div className="min-h-screen w-full font-sans bg-white overflow-x-hidden">
+    return (<div className="min-h-screen w-full font-sans bg-white overflow-x-hidden">
       {/* Above the fold (Hero) */}
       <div className="relative min-h-screen w-full flex flex-col">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <div className="w-full h-full bg-black/10 absolute inset-0 z-10 pointer-events-none" />
-          <img
-            src={bgImage}
-            alt="BMSIT&M campus photo"
-            className="w-full h-full object-cover"
-          />
+          <div className="w-full h-full bg-black/10 absolute inset-0 z-10 pointer-events-none"/>
+          <img src={bgImage} alt="BMSIT&M campus photo" className="w-full h-full object-cover"/>
         </div>
 
         {/* Giant Sky Text (Behind Building effect) */}
         <div className="absolute top-[12%] left-0 right-0 z-10 pointer-events-none flex justify-center">
-          <h1
-            className="font-playfair font-bold text-navy-deep text-[14vw] leading-none tracking-tight text-center drop-shadow-2xl"
-            style={{
-              WebkitMaskImage:
-                "linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 85%)",
-              maskImage:
-                "linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 85%)",
-            }}
-          >
+          <h1 className="font-playfair font-bold text-navy-deep text-[14vw] leading-none tracking-tight text-center drop-shadow-2xl" style={{
+            WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 85%)",
+            maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 85%)",
+        }}>
             BMSIT&M
           </h1>
         </div>
@@ -52,38 +35,23 @@ export function Landing() {
 
           {/* Center Links */}
           <nav className="hidden md:flex items-center gap-10">
-            <a
-              href="#about"
-              className="text-white text-sm font-medium hover:text-white/80 transition-colors"
-            >
+            <a href="#about" className="text-white text-sm font-medium hover:text-white/80 transition-colors">
               About Us
             </a>
-            <a
-              href="#how-it-works"
-              className="text-white text-sm font-medium hover:text-white/80 transition-colors"
-            >
+            <a href="#how-it-works" className="text-white text-sm font-medium hover:text-white/80 transition-colors">
               How it Works
             </a>
-            <a
-              href="#blocks"
-              className="text-white text-sm font-medium hover:text-white/80 transition-colors"
-            >
+            <a href="#blocks" className="text-white text-sm font-medium hover:text-white/80 transition-colors">
               Blocks
             </a>
-            <a
-              href="#contact"
-              className="text-white text-sm font-medium hover:text-white/80 transition-colors"
-            >
+            <a href="#contact" className="text-white text-sm font-medium hover:text-white/80 transition-colors">
               Contact
             </a>
           </nav>
 
           {/* Right Actions */}
           <div className="flex items-center gap-6">
-            <Link
-              to="/login"
-              className="bg-white/20 hover:bg-white/30 text-white px-7 py-2.5 rounded-full font-medium text-sm tracking-wide transition-all shadow-sm border border-white/10 backdrop-blur-md"
-            >
+            <Link to="/login" className="bg-white/20 hover:bg-white/30 text-white px-7 py-2.5 rounded-full font-medium text-sm tracking-wide transition-all shadow-sm border border-white/10 backdrop-blur-md">
               Login
             </Link>
           </div>
@@ -104,16 +72,10 @@ export function Landing() {
               </span>
             </div>
             <div className="flex flex-row justify-start gap-4 mt-6">
-              <Link
-                to="/login"
-                className="bg-navy hover:bg-[#111D33] text-white font-sans font-semibold text-[14px] tracking-normal normal-case rounded-md px-6 py-3 shadow-[0_4px_14px_rgba(26,43,74,0.50)] hover:shadow-[0_6px_20px_rgba(26,43,74,0.60)] transition-all duration-150 ease-in-out border-none"
-              >
+              <Link to="/login" className="bg-navy hover:bg-[#111D33] text-white font-sans font-semibold text-[14px] tracking-normal normal-case rounded-md px-6 py-3 shadow-[0_4px_14px_rgba(26,43,74,0.50)] hover:shadow-[0_6px_20px_rgba(26,43,74,0.60)] transition-all duration-150 ease-in-out border-none">
                 Report a Problem
               </Link>
-              <a
-                href="#how-it-works"
-                className="bg-transparent hover:bg-white/10 text-white font-sans font-medium text-[14px] rounded-md px-6 py-3 border-[1.5px] border-white/60 hover:border-white/85 transition-all duration-150 ease-in-out shadow-none"
-              >
+              <a href="#how-it-works" className="bg-transparent hover:bg-white/10 text-white font-sans font-medium text-[14px] rounded-md px-6 py-3 border-[1.5px] border-white/60 hover:border-white/85 transition-all duration-150 ease-in-out shadow-none">
                 See How It Works
               </a>
             </div>
@@ -129,10 +91,7 @@ export function Landing() {
       </div>
 
       {/* Below the fold */}
-      <div
-        id="how-it-works"
-        className="bg-white py-32 px-8 lg:px-24 border-b border-line"
-      >
+      <div id="how-it-works" className="bg-white py-32 px-8 lg:px-24 border-b border-line">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-navy font-semibold text-3xl mb-4">
@@ -144,34 +103,30 @@ export function Landing() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
-            <div className="hidden md:block absolute top-6 left-[10%] right-[10%] h-px bg-line z-0" />
+            <div className="hidden md:block absolute top-6 left-[10%] right-[10%] h-px bg-line z-0"/>
 
             {[
-              {
+            {
                 num: "1",
                 title: "Spot it",
                 desc: "Notice a broken switch, damaged bench, dirty corridor",
-              },
-              {
+            },
+            {
                 num: "2",
                 title: "Report it",
                 desc: "Select the block, space, and describe the issue",
-              },
-              {
+            },
+            {
                 num: "3",
                 title: "It routes automatically",
                 desc: "Block staff or admin gets notified instantly",
-              },
-              {
+            },
+            {
                 num: "4",
                 title: "Tracked until fixed",
                 desc: "Follow your report's status until it's resolved",
-              },
-            ].map((step, i) => (
-              <div
-                key={i}
-                className="relative z-10 flex flex-col items-center text-center"
-              >
+            },
+        ].map((step, i) => (<div key={i} className="relative z-10 flex flex-col items-center text-center">
                 <div className="w-12 h-12 rounded-full bg-white border-2 border-navy text-navy font-bold flex items-center justify-center text-xl mb-6 shadow-sm">
                   {step.num}
                 </div>
@@ -181,8 +136,7 @@ export function Landing() {
                 <p className="text-ink-muted text-sm leading-relaxed max-w-[220px]">
                   {step.desc}
                 </p>
-              </div>
-            ))}
+              </div>))}
           </div>
         </div>
       </div>
@@ -193,7 +147,7 @@ export function Landing() {
           {/* Students */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-line flex flex-col gap-6 transform transition hover:-translate-y-1 hover:shadow-md">
             <div className="flex items-center gap-3 text-navy mb-2">
-              <GraduationCap className="w-6 h-6" />
+              <GraduationCap className="w-6 h-6"/>
               <h3 className="font-semibold text-xl">Students</h3>
             </div>
             <div className="bg-page-bg p-5 rounded-lg border border-line flex flex-col gap-4 relative overflow-hidden">
@@ -238,7 +192,7 @@ export function Landing() {
           {/* Staff */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-line flex flex-col gap-6 transform transition hover:-translate-y-1 hover:shadow-md">
             <div className="flex items-center gap-3 text-navy mb-2">
-              <ListTodo className="w-6 h-6" />
+              <ListTodo className="w-6 h-6"/>
               <h3 className="font-semibold text-xl">Block Staff</h3>
             </div>
             <div className="bg-page-bg p-5 rounded-lg border border-line flex flex-col gap-4">
@@ -249,11 +203,7 @@ export function Landing() {
                 </span>
               </div>
 
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="bg-white p-3 rounded border border-line flex justify-between items-center shadow-sm"
-                >
+              {[1, 2, 3].map((i) => (<div key={i} className="bg-white p-3 rounded border border-line flex justify-between items-center shadow-sm">
                   <div className="flex-1">
                     <p className="text-xs font-bold text-ink mb-1">
                       Room {200 + i}
@@ -266,17 +216,16 @@ export function Landing() {
                     <span className="text-[10px] font-medium text-info bg-info/10 px-1.5 py-0.5 rounded">
                       +4
                     </span>
-                    <ArrowRight className="w-3.5 h-3.5 text-ink-muted" />
+                    <ArrowRight className="w-3.5 h-3.5 text-ink-muted"/>
                   </div>
-                </div>
-              ))}
+                </div>))}
             </div>
           </div>
 
           {/* Admin */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-line flex flex-col gap-6 transform transition hover:-translate-y-1 hover:shadow-md">
             <div className="flex items-center gap-3 text-navy mb-2">
-              <LayoutDashboard className="w-6 h-6" />
+              <LayoutDashboard className="w-6 h-6"/>
               <h3 className="font-semibold text-xl">Admin</h3>
             </div>
             <div className="bg-page-bg p-5 rounded-lg border border-line flex flex-col gap-4">
@@ -286,14 +235,10 @@ export function Landing() {
 
               <div className="flex flex-col gap-3">
                 {[
-                  { name: "Block A", score: 91, w: "91%" },
-                  { name: "Block B", score: 84, w: "84%" },
-                  { name: "Block C", score: 76, w: "76%" },
-                ].map((block, i) => (
-                  <div
-                    key={i}
-                    className="bg-white p-3 rounded border border-line flex flex-col gap-2 shadow-sm"
-                  >
+            { name: "Block A", score: 91, w: "91%" },
+            { name: "Block B", score: 84, w: "84%" },
+            { name: "Block C", score: 76, w: "76%" },
+        ].map((block, i) => (<div key={i} className="bg-white p-3 rounded border border-line flex flex-col gap-2 shadow-sm">
                     <div className="flex justify-between text-xs font-bold">
                       <span>{block.name}</span>
                       <span className={i === 0 ? "text-success" : "text-ink"}>
@@ -301,13 +246,9 @@ export function Landing() {
                       </span>
                     </div>
                     <div className="w-full bg-line h-1.5 rounded-full overflow-hidden">
-                      <div
-                        className="bg-navy h-full rounded-full"
-                        style={{ width: block.w }}
-                      ></div>
+                      <div className="bg-navy h-full rounded-full" style={{ width: block.w }}></div>
                     </div>
-                  </div>
-                ))}
+                  </div>))}
               </div>
             </div>
           </div>
@@ -333,7 +274,7 @@ export function Landing() {
           <div className="hidden md:block w-px h-16 bg-white/20"></div>
           <div className="text-center">
             <p className="text-4xl font-semibold mb-2 flex items-center justify-center gap-2">
-              6 <Building2 className="w-6 h-6 text-white/50" />
+              6 <Building2 className="w-6 h-6 text-white/50"/>
             </p>
             <p className="text-white/70 text-sm tracking-wide uppercase">
               Blocks tracked across campus
@@ -369,6 +310,5 @@ export function Landing() {
           </div>
         </div>
       </footer>
-    </div>
-  )
+    </div>);
 }

@@ -75,6 +75,82 @@ router.get('/reports', requireAuth, requireRole('admin'), async (req, res) => {
   }
 });
 
+// ── PATCH /api/admin/reports/:id/status ──────────────────────────────────────
+// Admins can progress any report, including Campus reports, through the same
+// workflow staff use for reports in their assigned block.
+router.patch('/reports/:id/status', requireAuth, requireRole('admin'), async (req, res) => {
+  const reportId = parseInt(req.params.id);
+  const { new_status: newStatus } = req.body;
+  const allowed = { Open: 'Acknowledged', Acknowledged: 'In Progress', 'In Progress': 'Resolved' };
+  let client;
+
+  try {
+    client = await pool.connect();
+    await client.query('BEGIN');
+
+    const result = await client.query('SELECT * FROM reports WHERE id=$1 FOR UPDATE', [reportId]);
+    if (!result.rows.length) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({ error: 'Report not found.' });
+    }
+
+    const report = result.rows[0];
+    if (allowed[report.status] !== newStatus) {
+      await client.query('ROLLBACK');
+      return res.status(400).json({ error: `Cannot move from ${report.status} to ${newStatus}.` });
+    }
+
+    const updateSql = newStatus === 'Resolved'
+      ? 'UPDATE reports SET status=$1, resolved_at=NOW() WHERE id=$2'
+      : 'UPDATE reports SET status=$1 WHERE id=$2';
+    await client.query(updateSql, [newStatus, reportId]);
+    await client.query(
+      'INSERT INTO status_history (report_id, old_status, new_status, changed_by) VALUES ($1,$2,$3,$4)',
+      [reportId, report.status, newStatus, req.session.user.id]
+    );
+    await client.query(
+      "INSERT INTO notifications (user_id, title, subtitle, type, report_id) VALUES ($1,$2,$3,$4,$5)",
+      [report.student_id, newStatus === 'Resolved' ? 'Your report has been resolved' : `Your report status updated to ${newStatus}`, report.sub_type || report.report_type, newStatus === 'Resolved' ? 'resolved' : 'status_change', reportId]
+    );
+    await client.query('COMMIT');
+    return res.json({ success: true });
+  } catch (err) {
+    if (client) await client.query('ROLLBACK');
+    console.error('Admin status update error:', err.message);
+    return res.status(500).json({ error: 'Server error.' });
+  } finally {
+    client?.release();
+  }
+});
+
+// ── PATCH /api/admin/reports/:id/reject ──────────────────────────────────────
+router.patch('/reports/:id/reject', requireAuth, requireRole('admin'), async (req, res) => {
+  const reportId = parseInt(req.params.id);
+  const { rejection_reason: rejectionReason } = req.body;
+  if (!rejectionReason || !rejectionReason.trim()) return res.status(400).json({ error: 'rejection_reason is required.' });
+
+  try {
+    const result = await pool.query('SELECT * FROM reports WHERE id=$1', [reportId]);
+    if (!result.rows.length) return res.status(404).json({ error: 'Report not found.' });
+    const report = result.rows[0];
+    if (['Resolved', 'Rejected'].includes(report.status)) return res.status(400).json({ error: 'This report can no longer be rejected.' });
+
+    await pool.query("UPDATE reports SET status='Rejected', rejection_reason=$1 WHERE id=$2", [rejectionReason.trim(), reportId]);
+    await pool.query(
+      "INSERT INTO status_history (report_id, old_status, new_status, changed_by) VALUES ($1,$2,'Rejected',$3)",
+      [reportId, report.status, req.session.user.id]
+    );
+    await pool.query(
+      "INSERT INTO notifications (user_id, title, subtitle, type, report_id) VALUES ($1,$2,$3,'rejected',$4)",
+      [report.student_id, 'Your report was marked as invalid', `Reason: ${rejectionReason.trim()}`, reportId]
+    );
+    return res.json({ success: true });
+  } catch (err) {
+    console.error('Admin rejection error:', err.message);
+    return res.status(500).json({ error: 'Server error.' });
+  }
+});
+
 // ── GET /api/admin/block-ratings ──────────────────────────────────────────────
 // Same rating formula as staff/block-rating but for ALL blocks in one query.
 router.get('/block-ratings', requireAuth, requireRole('admin'), async (req, res) => {
