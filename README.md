@@ -6,13 +6,13 @@ A web application for reporting and resolving campus issues (damaged facilities,
 
 | Layer | Tech |
 |-------|------|
-| Frontend | React 19, React Router 8, Tailwind CSS 4, Vite 8, TypeScript 5.7 |
+| Frontend | React 19, React Router 8, Tailwind CSS 4, Vite 8 |
 | Backend | Express 5, PostgreSQL (pg), bcryptjs, express-session, multer |
-| Tooling | pnpm, Figma Make (frontend dev server on port 8443) |
+| Tooling | Node.js 22, pnpm 10.34.3, oxfmt |
 
 ## Prerequisites
 
-- [Node.js 22](https://nodejs.org) (see `.mise.toml`)
+- [Node.js 22](https://nodejs.org) (see `frontend/.mise.toml`)
 - [pnpm 10.34.3](https://pnpm.io)
 - PostgreSQL 16+ running locally on port 5432
 
@@ -21,7 +21,7 @@ A web application for reporting and resolving campus issues (damaged facilities,
 ### 1. Clone & install dependencies
 
 ```bash
-cd "Project Overview"
+cd campusCare
 cd frontend && pnpm install
 cd ../backend && pnpm install
 ```
@@ -39,6 +39,7 @@ DB_NAME=care_db
 SESSION_SECRET=change_this_in_production
 PORT=3000
 COLLEGE_EMAIL_DOMAIN=bmsit.in
+FRONTEND_URL=http://localhost:8443
 ```
 
 Then create the schema and seed data:
@@ -62,13 +63,13 @@ The seed script prints login credentials:
 **Backend** (Terminal 1):
 ```bash
 cd backend
-pnpm dev   # or: npm run dev
+npm run dev
 ```
 
 **Frontend** (Terminal 2):
 ```bash
 cd frontend
-pnpm dev   # or: npm run dev
+npm run dev
 ```
 
 - Frontend: [http://localhost:8443](http://localhost:8443)
@@ -86,101 +87,125 @@ pnpm dev   # or: npm run dev
 ## Project Structure
 
 ```
-Project Overview/
-├── frontend/                    # React + Vite app
-│   ├── src/
-│   │   ├── pages/               # Page components
-│   │   │   ├── Landing.tsx      # Landing page (hero, how-it-works, contact, roles)
-│   │   │   ├── Login.tsx
-│   │   │   ├── StudentDashboard.tsx
-│   │   │   ├── ReportProblem.tsx
-│   │   │   ├── MyReports.tsx
-│   │   │   ├── Notifications.tsx
-│   │   │   ├── Settings.tsx
-│   │   │   ├── StaffDashboard.tsx
-│   │   │   ├── StaffQueue.tsx
-│   │   │   ├── StaffReports.tsx
-│   │   │   ├── StaffReportDetail.tsx
-│   │   │   ├── StaffSettings.tsx
-│   │   │   ├── AdminDashboard.tsx
-│   │   │   ├── AdminAllReports.tsx
-│   │   │   ├── AdminBlockRatings.tsx
-│   │   │   ├── AdminAnalytics.tsx
-│   │   │   ├── AdminStaffManagement.tsx
-│   │   │   └── AdminSettings.tsx
-│   │   ├── layouts/
-│   │   │   ├── StudentLayout.tsx
-│   │   │   ├── StaffLayout.tsx
-│   │   │   └── AdminLayout.tsx
-│   │   └── components/
-│   │       └── DashboardShell.tsx
-│   └── main.tsx                 # Router config
+campusCare/
+├── frontend/                         # React + Vite app
+│   ├── index.html                    # Vite HTML shell
+│   ├── package.json                  # Frontend dependencies
+│   ├── vite.config.js                # Vite config (React, Tailwind, Figma plugins)
+│   ├── .mise.toml                    # Node.js 22, pnpm 10.34.3
+│   └── src/
+│       ├── main.jsx                  # Router config & entrypoint
+│       ├── index.css                 # Tailwind CSS v4 imports & theme
+│       ├── api.js                    # API fetch wrapper (credentials: include)
+│       ├── pages/
+│       │   ├── Landing.jsx           # Landing page (hero, how-it-works, contact, roles)
+│       │   ├── Login.jsx             # Login / Register
+│       │   ├── StudentDashboard.jsx
+│       │   ├── ReportProblem.jsx     # Submit a report (with photo upload)
+│       │   ├── MyReports.jsx         # Student's own reports
+│       │   ├── Notifications.jsx
+│       │   ├── Settings.jsx
+│       │   ├── StaffDashboard.jsx
+│       │   ├── StaffQueue.jsx        # Table view of block reports
+│       │   ├── StaffReports.jsx      # Grid view of all reports
+│       │   ├── StaffReportDetail.jsx # Individual report detail
+│       │   ├── StaffSettings.jsx
+│       │   ├── AdminDashboard.jsx
+│       │   ├── AdminAllReports.jsx
+│       │   ├── AdminReportDetail.jsx
+│       │   ├── AdminBlockRatings.jsx
+│       │   ├── AdminAnalytics.jsx
+│       │   ├── AdminStaffManagement.jsx
+│       │   └── AdminSettings.jsx
+│       ├── layouts/
+│       │   ├── StudentLayout.jsx
+│       │   ├── StaffLayout.jsx
+│       │   └── AdminLayout.jsx
+│       └── components/
+│           └── DashboardShell.jsx
 ├── backend/
-│   ├── server.js                # Express app entry
-│   ├── db.js                    # PostgreSQL pool
-│   ├── schema.sql               # 8 tables
-│   ├── seed.js                  # Seed data
-│   ├── runSchema.js             # Run schema.sql
-│   ├── resetData.js             # Clear report data
-│   ├── middleware.js            # Auth helper
-│   ├── .env                     # Environment variables
+│   ├── server.js                     # Express app entry
+│   ├── db.js                         # PostgreSQL pool
+│   ├── middleware.js                  # Auth helpers (requireAuth, requireRole)
+│   ├── schema.sql                    # 8 tables
+│   ├── seed.js                       # Seed users & blocks
+│   ├── runSchema.js                  # Run schema.sql
+│   ├── resetData.js                  # Clear report data
+│   ├── package.json                  # Backend dependencies
+│   ├── .env                          # Environment variables (gitignored)
+│   ├── .env.example                  # Template for .env
+│   ├── uploads/                      # Uploaded report photos
 │   └── routes/
 │       ├── auth.js
 │       ├── reports.js
 │       ├── staff.js
 │       ├── admin.js
 │       └── notifications.js
-└── AGENTS.md                    # Figma Make project guide
+├── AGENTS.md                         # Figma Make project guide
+└── README.md
 ```
 
-## Routes
+## Frontend Routes
 
 | Path | Role | Description |
 |------|------|-------------|
 | `/` | All | Landing page |
 | `/login` | All | Login / Register |
-| `/student` | Student | Student dashboard, submit reports, view reports |
-| `/staff` | Staff | Staff dashboard, queue, report details |
+| `/student` | Student | Student dashboard |
+| `/student/report` | Student | Submit a new report |
+| `/student/reports` | Student | View own reports |
+| `/student/notifications` | Student | Notifications |
+| `/student/settings` | Student | Settings |
+| `/staff` | Staff | Staff dashboard |
 | `/staff/queue` | Staff | Table view of block reports |
-| `/staff/reports` | Staff | **Report Details** — grid view of all reports |
-| `/staff/report/:id` | Staff | Individual report detail with status update |
-| `/admin` | Admin | Admin dashboard, analytics, staff management |
+| `/staff/reports` | Staff | Grid view of all reports |
+| `/staff/report/:id` | Staff | Individual report detail |
+| `/staff/settings` | Staff | Settings |
+| `/admin` | Admin | Admin dashboard |
+| `/admin/reports` | Admin | All reports |
+| `/admin/reports/:id` | Admin | Individual report detail |
+| `/admin/ratings` | Admin | Block ratings |
+| `/admin/staff` | Admin | Staff management |
+| `/admin/analytics` | Admin | Analytics |
+| `/admin/settings` | Admin | Settings |
 
 ## API Endpoints
 
-### Auth
-- `POST /api/auth/login` — Login with email & password
-- `POST /api/auth/register` — Register student account
-- `POST /api/auth/logout` — Destroy session
-- `GET /api/auth/me` — Current user info
+### Auth (`/api/auth`)
+- `POST /register` — Register student account
+- `POST /login` — Login with email & password
+- `POST /logout` — Destroy session
+- `GET /me` — Current user info
 
-### Reports
-- `GET /api/reports` — List reports (filtered by role)
-- `GET /api/reports/:id` — Single report detail
-- `POST /api/reports` — Create a report
-- `PATCH /api/reports/:id/status` — Update report status
-- `PATCH /api/reports/:id/reject` — Reject a report (staff)
+### Reports (`/api/reports`)
+- `POST /` — Create a report (student, with photo upload)
+- `GET /my` — Student's own reports
+- `GET /:id` — Single report detail
+- `POST /:id/confirm` — Confirm a resolved report (student)
+- `DELETE /:id/cancel` — Cancel a report (student)
+- `POST /:id/feedback` — Submit feedback on a report (student)
 
-### Staff
-- `GET /api/staff/queue` — Staff's block queue
-- `GET /api/staff/block-rating` — Block performance rating
+### Staff (`/api/staff`)
+- `GET /queue` — Staff's block queue
+- `PATCH /reports/:id/status` — Update report status
+- `PATCH /reports/:id/reject` — Reject a report
+- `GET /block-rating` — Block performance rating
 
-### Admin
-- `GET /api/admin/stats` — Dashboard statistics
-- `GET /api/admin/stats/time-series` — 30-day time series
-- `GET /api/admin/stats/distribution` — Category distribution
-- `GET /api/admin/stats/staff` — Staff performance list
-- `GET /api/admin/stats/staff/:id` — Staff detail
-- `POST /api/admin/staff` — Create staff account
-- `PUT /api/admin/staff/:id/block` — Assign block to staff
-- `DELETE /api/admin/staff/:id` — Remove staff
-- `GET /api/admin/leaderboard` — Leaderboard
+### Admin (`/api/admin`)
+- `GET /reports` — All reports
+- `PATCH /reports/:id/status` — Update report status
+- `PATCH /reports/:id/reject` — Reject a report
+- `GET /block-ratings` — Block ratings
+- `GET /staff` — Staff list
+- `POST /staff` — Create staff account
+- `DELETE /staff/:id` — Remove staff
+- `GET /analytics` — Analytics data
+- `GET /escalated` — Escalated reports
 
-### Notifications
-- `GET /api/notifications` — User notifications
-- `PATCH /api/notifications/:id/read` — Mark read
-- `POST /api/notifications/:id/confirm` — Confirm report
-- `DELETE /api/notifications/:id` — Delete notification
+### Notifications (`/api/notifications`)
+- `GET /` — User notifications
+- `PATCH /read-all` — Mark all as read
+- `PATCH /:id/read` — Mark single notification as read
 
 ### Other
 - `GET /api/blocks` — Public block list
@@ -193,8 +218,8 @@ Project Overview/
 | `node backend/runSchema.js` | Create all tables |
 | `node backend/seed.js` | Seed users & blocks |
 | `node backend/resetData.js` | Clear all report data |
-| `cd frontend && pnpm dev` | Start Vite dev server (port 8443) |
-| `cd backend && pnpm dev` | Start Express dev server (port 3000) |
+| `cd frontend && npm run dev` | Start Vite dev server (port 8443) |
+| `cd backend && npm run dev` | Start Express dev server (port 3000) |
 
 ## License
 
