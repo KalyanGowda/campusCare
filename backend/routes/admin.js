@@ -174,7 +174,8 @@ router.get('/block-ratings', requireAuth, requireRole('admin'), async (req, res)
          ) FILTER (WHERE r.status = 'Resolved') AS timeliness_score,
 
          COUNT(r.id) FILTER (
-           WHERE r.status IN ('Open','Acknowledged')
+           WHERE r.status NOT IN ('Resolved','Rejected')
+             AND r.resolved_at IS NULL
              AND EXTRACT(EPOCH FROM (NOW() - r.created_at)) / 3600 > r.sla_target_hours
          ) AS overdue_count
 
@@ -286,7 +287,11 @@ router.delete('/staff/:id', requireAuth, requireRole('admin'), async (req, res) 
   const staff_id = parseInt(req.params.id);
 
   try {
+    // Unlink from block
     await pool.query('UPDATE blocks SET staff_id=NULL WHERE staff_id=$1', [staff_id]);
+    // Nullify status_history references so the FK doesn't block deletion
+    await pool.query('UPDATE status_history SET changed_by=NULL WHERE changed_by=$1', [staff_id]);
+    // Delete the user
     await pool.query('DELETE FROM users WHERE id=$1 AND role=\'staff\'', [staff_id]);
     return res.json({ success: true });
   } catch (err) {
@@ -337,7 +342,8 @@ router.get('/analytics', requireAuth, requireRole('admin'), async (req, res) => 
          AVG(EXTRACT(EPOCH FROM (resolved_at - created_at)) / 3600)
            FILTER (WHERE status='Resolved' AND resolved_at IS NOT NULL) AS avg_resolution_hours,
          COUNT(*) FILTER (
-           WHERE status IN ('Open','Acknowledged')
+           WHERE status NOT IN ('Resolved','Rejected')
+             AND resolved_at IS NULL
              AND EXTRACT(EPOCH FROM (NOW()-created_at))/3600 > sla_target_hours
          ) AS escalated_count
        FROM reports r
@@ -381,7 +387,8 @@ router.get('/escalated', requireAuth, requireRole('admin'), async (req, res) => 
        FROM reports r
        LEFT JOIN locations l ON l.id = r.location_id
        LEFT JOIN blocks    b ON b.id = l.block_id
-       WHERE r.status IN ('Open','Acknowledged')
+       WHERE r.status NOT IN ('Resolved','Rejected')
+         AND r.resolved_at IS NULL
          AND EXTRACT(EPOCH FROM (NOW() - r.created_at)) / 3600 > r.sla_target_hours
        ORDER BY hours_overdue DESC`
     );

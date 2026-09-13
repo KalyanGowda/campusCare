@@ -217,7 +217,8 @@ router.get('/block-rating', requireAuth, requireRole('staff'), async (req, res) 
 
          -- Overdue: still open and past SLA
          COUNT(*) FILTER (
-           WHERE status IN ('Open','Acknowledged')
+           WHERE status NOT IN ('Resolved','Rejected')
+             AND resolved_at IS NULL
              AND EXTRACT(EPOCH FROM (NOW() - created_at)) / 3600 > sla_target_hours
          ) AS overdue_count
 

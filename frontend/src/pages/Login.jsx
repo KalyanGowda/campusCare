@@ -91,7 +91,7 @@ export function Login() {
           </Link>
         </div>
 
-        <div className="max-w-md w-full mx-auto">
+        <div className="max-w-md w-full mx-auto mt-12">
           <h1 className="text-3xl font-semibold text-navy mb-2">
             {isLogin ? "Welcome back" : "Create your account"}
           </h1>
@@ -156,10 +156,6 @@ export function Login() {
                 </span>
               </div>
             </div>))}
-        </div>
-        <div className="mt-16 z-10 text-white/50 text-sm tracking-widest uppercase font-medium flex items-center gap-3 bg-navy-deep/50 px-6 py-2 rounded-full backdrop-blur-sm border border-white/5">
-          <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-          Serving 6 blocks across BMSIT&M campus.
         </div>
       </div>
     </div>);

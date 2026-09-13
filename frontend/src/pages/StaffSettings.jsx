@@ -26,20 +26,11 @@ export function StaffSettings() {
     useEffect(() => {
         apiFetch('/api/auth/me').then(r => r.json()).then(data => {
             setUser(data);
+            if (data?.block_name) setBlockName(data.block_name);
         });
         apiFetch('/api/staff/block-rating').then(r => r.json()).then(data => {
             setRating(data);
         }).catch(() => { });
-        // Get block name from block-ratings endpoint
-        apiFetch('/api/admin/block-ratings').then(r => r.json()).then((data) => {
-            // this will 403 for staff — that's fine, ignore
-        }).catch(() => {
-            // staff can't hit admin endpoints; get block name another way
-            apiFetch('/api/staff/queue').then(r => r.json()).then((rows) => {
-                if (Array.isArray(rows) && rows[0]?.block_name)
-                    setBlockName(rows[0].block_name);
-            }).catch(() => { });
-        });
     }, []);
     const getInitials = (n) => n.split(" ").map(p => p[0]).join("").slice(0, 2).toUpperCase();
     const saveProfile = (e) => { e.preventDefault(); setProfileSaved(true); setTimeout(() => setProfileSaved(false), 3000); };

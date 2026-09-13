@@ -51,13 +51,12 @@ router.post('/login', async (req, res) => {
     const result = await pool.query('SELECT * FROM users WHERE email=$1', [email]);
     const user   = result.rows[0];
 
-    // Use a generic message to avoid leaking which field was wrong
-    const genericError = "That email and password don't match.";
-
-    if (!user) return res.status(401).json({ error: genericError });
+    if (!user) {
+      return res.status(401).json({ error: 'No account found with that email. Please register first.' });
+    }
 
     const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(401).json({ error: genericError });
+    if (!match) return res.status(401).json({ error: "That email and password don't match." });
 
     // Store minimal info in session (no password)
     req.session.user = {
@@ -84,8 +83,22 @@ router.post('/logout', (req, res) => {
 });
 
 // ── GET /api/auth/me ──────────────────────────────────────────────────────────
-router.get('/me', requireAuth, (req, res) => {
-  return res.json(req.session.user);
+router.get('/me', requireAuth, async (req, res) => {
+  const user = req.session.user;
+
+  // For staff, include the block name
+  if (user.role === 'staff' && user.block_id) {
+    try {
+      const result = await pool.query('SELECT name FROM blocks WHERE id=$1', [user.block_id]);
+      if (result.rows.length) {
+        return res.json({ ...user, block_name: result.rows[0].name });
+      }
+    } catch (err) {
+      // ignore — fall through to default response
+    }
+  }
+
+  return res.json(user);
 });
 
 module.exports = router;

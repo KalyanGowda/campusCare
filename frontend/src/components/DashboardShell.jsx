@@ -37,9 +37,7 @@ export function DashboardShell({ role, userName: userNameProp, userLabel: userLa
 
         <nav className="flex-1 px-3 flex flex-col gap-1 overflow-y-auto">
           {navItems.map((item) => {
-            const isActive = item.path.endsWith('/')
-                ? location.pathname === item.path
-                : location.pathname === item.path || location.pathname.startsWith(item.path + '/');
+            const isActive = location.pathname === item.path;
             const Icon = item.icon;
             return (<Link key={item.path} to={item.path} className={clsx("flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all", isActive
                     ? "bg-navy-deep text-white shadow-inner"

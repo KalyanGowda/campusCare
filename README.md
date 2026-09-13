@@ -175,7 +175,7 @@ campusCare/
 - `POST /register` — Register student account
 - `POST /login` — Login with email & password
 - `POST /logout` — Destroy session
-- `GET /me` — Current user info
+- `GET /me` — Current user info (includes `block_name` for staff)
 
 ### Reports (`/api/reports`)
 - `POST /` — Create a report (student, with photo upload)
