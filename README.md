@@ -74,6 +74,15 @@ pnpm dev   # or: npm run dev
 - Frontend: [http://localhost:8443](http://localhost:8443)
 - Backend API: [http://localhost:3000](http://localhost:3000)
 
+## Landing Page Features
+
+- **Hero section** — Full-viewport campus background with giant "BMSIT&M" sky text and call-to-action buttons
+- **How it works** — 4-step process with scroll-triggered staggered reveal animations
+- **Role showcase** — Student, Staff, and Admin role cards with mock UI previews
+- **Performance strip** — Key metrics (87% SLA, 2.4 day avg resolution, 6 blocks tracked)
+- **Contact section** — Contact info (email, phone, address, hours) with a professional form on a navy-deep background
+- **Smooth scroll** — Navbar links smoothly scroll to corresponding sections
+
 ## Project Structure
 
 ```
@@ -81,7 +90,7 @@ Project Overview/
 ├── frontend/                    # React + Vite app
 │   ├── src/
 │   │   ├── pages/               # Page components
-│   │   │   ├── Landing.tsx
+│   │   │   ├── Landing.tsx      # Landing page (hero, how-it-works, contact, roles)
 │   │   │   ├── Login.tsx
 │   │   │   ├── StudentDashboard.tsx
 │   │   │   ├── ReportProblem.tsx
@@ -90,8 +99,8 @@ Project Overview/
 │   │   │   ├── Settings.tsx
 │   │   │   ├── StaffDashboard.tsx
 │   │   │   ├── StaffQueue.tsx
-│   │   │   ├── StaffReports.tsx       ← Report Details (grid view)
-│   │   │   ├── StaffReportDetail.tsx  ← Individual report detail
+│   │   │   ├── StaffReports.tsx
+│   │   │   ├── StaffReportDetail.tsx
 │   │   │   ├── StaffSettings.tsx
 │   │   │   ├── AdminDashboard.tsx
 │   │   │   ├── AdminAllReports.tsx
