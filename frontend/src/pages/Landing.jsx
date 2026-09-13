@@ -97,7 +97,7 @@ function ContactSection() {
               </div>
               <div>
                 <h4 className="text-white font-semibold mb-1">Phone</h4>
-                <p className="text-white/60 text-sm">+91 80 2672 1619</p>
+                <p className="text-white/60 text-sm">+91 6969696969</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -108,8 +108,8 @@ function ContactSection() {
                 <h4 className="text-white font-semibold mb-1">Address</h4>
                 <p className="text-white/60 text-sm">
                   BMS Institute of Technology & Management,<br />
-                  Bull Temple Road, Basavanagudi,<br />
-                  Bengaluru, Karnataka 560019
+                  Doddaballapur main road, Yelahanka,<br />
+                  Bengaluru, Karnataka 560064
                 </p>
               </div>
             </div>
