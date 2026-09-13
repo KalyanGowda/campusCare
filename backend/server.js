@@ -1,8 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
-const cors    = require('cors');
-const path    = require('path');
+const cors = require('cors');
+const path = require('path');
 
 const app = express();
 
@@ -24,12 +24,12 @@ app.use(express.json());
 
 // ── SESSION ───────────────────────────────────────────────────────────────────
 app.use(session({
-  secret:            process.env.SESSION_SECRET,
-  resave:            false,
+  secret: process.env.SESSION_SECRET,
+  resave: false,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    maxAge:   86400000,   // 1 day in ms
+    maxAge: 86400000,   // 1 day in ms
   },
 }));
 
@@ -37,10 +37,10 @@ app.use(session({
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ── ROUTES ────────────────────────────────────────────────────────────────────
-app.use('/api/auth',          require('./routes/auth'));
-app.use('/api/reports',       require('./routes/reports'));
-app.use('/api/staff',         require('./routes/staff'));
-app.use('/api/admin',         require('./routes/admin'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/reports', require('./routes/reports'));
+app.use('/api/staff', require('./routes/staff'));
+app.use('/api/admin', require('./routes/admin'));
 app.use('/api/notifications', require('./routes/notifications'));
 
 // Public: list of blocks (needed by the report form for all roles)
