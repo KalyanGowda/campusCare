@@ -191,14 +191,28 @@ export function ReportProblem() {
               <h2 className="text-xl font-semibold text-navy">What kind of space?</h2>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {[{ id: "Classroom", icon: Presentation }, { id: "Lab", icon: Beaker }, { id: "Washroom", icon: Droplet }, { id: "Others", icon: Grid }].map(s => (<button key={s.id} onClick={() => setSpace(s.id)} className={clsx("p-5 rounded-xl border flex flex-col items-center justify-center gap-3 transition-all", space === s.id ? "bg-navy/5 border-navy border-2 text-navy" : "bg-white border-line text-ink-muted hover:border-navy/30")}>
+              {[{ id: "Classroom", icon: Presentation }, { id: "Lab", icon: Beaker }, { id: "Washroom", icon: Droplet }, { id: "Others", icon: Grid }].map(s => (<button key={s.id} onClick={() => {
+                    setSpace(s.id);
+                    if (s.id === "Washroom" && issueType === "issue") {
+                      setIssueType("damage");
+                      setSelectedChips([]);
+                      setSubType("");
+                    }
+                  }} className={clsx("p-5 rounded-xl border flex flex-col items-center justify-center gap-3 transition-all", space === s.id ? "bg-navy/5 border-navy border-2 text-navy" : "bg-white border-line text-ink-muted hover:border-navy/30")}>
                   <s.icon className="w-8 h-8"/>
                   <span className="font-semibold text-ink">{s.id}</span>
                 </button>))}
             </div>
             <div className="mt-8 flex justify-between">
               <button onClick={() => setStep(2)} className="text-ink-muted hover:text-ink font-medium px-4 py-2.5">Back</button>
-              <button disabled={!space} onClick={handleNext} className="bg-navy hover:bg-navy-deep disabled:bg-line disabled:text-ink-muted text-white font-medium px-8 py-2.5 rounded-md flex items-center gap-2">
+              <button disabled={!space} onClick={() => {
+                if (space === "Washroom" && issueType === "issue") {
+                  setIssueType("damage");
+                  setSelectedChips([]);
+                  setSubType("");
+                }
+                handleNext();
+              }} className="bg-navy hover:bg-navy-deep disabled:bg-line disabled:text-ink-muted text-white font-medium px-8 py-2.5 rounded-md flex items-center gap-2">
                 Next <ChevronRight className="w-4 h-4"/>
               </button>
             </div>
@@ -227,15 +241,15 @@ export function ReportProblem() {
               <h2 className="text-xl font-semibold text-navy">Describe the problem</h2>
             </div>
 
-            {/* Campus reports support Damage and Other only. */}
+            {/* Campus & Washroom reports support Damage and Other only. */}
             <div className="flex bg-page-bg p-1 rounded-lg">
-              {(locType === "campus" ? ["damage", "other"] : ["issue", "damage", "other"]).map(t => (<button key={t} onClick={() => { setIssueType(t); setSelectedChips([]); setSubType(""); }} className={clsx("flex-1 py-2 text-sm font-medium rounded-md capitalize", issueType === t ? "bg-white text-navy shadow-sm" : "text-ink-muted")}>
+              {(locType === "campus" || space === "Washroom" ? ["damage", "other"] : ["issue", "damage", "other"]).map(t => (<button key={t} onClick={() => { setIssueType(t); setSelectedChips([]); setSubType(""); }} className={clsx("flex-1 py-2 text-sm font-medium rounded-md capitalize", issueType === t ? "bg-white text-navy shadow-sm" : "text-ink-muted")}>
                   {t.charAt(0).toUpperCase() + t.slice(1)}
                 </button>))}
             </div>
 
             {/* Issue chips */}
-            {issueType === "issue" && (<div className="flex flex-col gap-3">
+            {issueType === "issue" && space !== "Washroom" && (<div className="flex flex-col gap-3">
                 <label className="text-sm font-medium text-ink">What is not working?</label>
                 <div className="flex flex-wrap gap-2">
                   {["Switch", "Fan", "Light", "Projector", "AC", "Door Lock", "Tap/Flush", "Other"].map(chip => {
@@ -252,7 +266,7 @@ export function ReportProblem() {
                 <span className="text-sm font-medium text-ink">
                   {issueType === "damage" ? "What is damaged?" : "Briefly describe the issue"}
                 </span>
-                <input type="text" value={subType} onChange={e => setSubType(e.target.value)} className="w-full border border-line rounded-md p-3 outline-none focus:border-navy text-sm" placeholder={issueType === "damage" ? "e.g. Broken bench, Cracked window" : "e.g. Garbage pile, Blocked drain"}/>
+                <input type="text" value={subType} onChange={e => setSubType(e.target.value)} className="w-full border border-line rounded-md p-3 outline-none focus:border-navy text-sm" placeholder={issueType === "damage" ? (space === "Washroom" ? "e.g. Broken tap, Flush damaged, Cracked mirror" : "e.g. Broken bench, Cracked window") : (space === "Washroom" ? "e.g. Water leakage, No water supply, Unclean washroom" : "e.g. Garbage pile, Blocked drain")}/>
               </label>)}
 
             {/* Photo upload for damage */}
